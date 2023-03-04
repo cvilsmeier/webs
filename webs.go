@@ -1,10 +1,10 @@
-package webs
+package main
 
 // ----------------------------------------------------------------------------
 //
 // This is webs, a collection of utilities for writing web apps in Go.
 //
-// version 2022-12-04
+// version 2023-03-04
 //
 // ----------------------------------------------------------------------------
 
@@ -25,10 +25,20 @@ import (
 
 // Request represents a HTTP request.
 type Request interface {
+
+	// IsPost returns true if this is a POST request.
 	IsPost() bool
+
+	// Query returns first named query parameter, or empty string if not found.
 	Query(name string) string
+
+	// PostForm returns first named form post parameter, or empty string if not found.
 	PostForm(name string) string
+
+	// FormFile returns the first file for the provided form key.
 	FormFile(name string) (FormFile, error)
+
+	// CookieValue returns the named cookie, or empty string if not found.
 	CookieValue(name, defValue string) string
 }
 
@@ -141,7 +151,7 @@ const (
 )
 
 // NewTemplateResponse renders a template.
-func NewTemplateResponse(name string, data map[string]any) Response {
+func NewTemplateResponse(name string, data M) Response {
 	return Response{Type: TemplateResponse, TemplateName: name, TemplateData: data}
 }
 
@@ -377,7 +387,7 @@ type Session struct {
 }
 
 // NewSession creates a new session with a unique random id.
-// You must call rand.Seed() before calling NewSession.
+// Before Go 1.20, you must call rand.Seed() before calling NewSession.
 func NewSession() Session {
 	const chars = "0123456789abcdef"
 	buf := make([]byte, 32)

@@ -1,0 +1,19 @@
+<html>
+<body>
+    index<br>
+    <br>
+    <a href="say?message=hello">say hello</a><br>
+    <a href="say?message=world">say world</a><br>
+    <br>
+    <br>
+    {{if .name}}
+        Your name is: {{.name}}<br>
+        <br>
+    {{end}}
+    <form method="POST">
+        <label>Set your name:</label><br>
+        <input type="text" name="name">
+        <button type="submit">Set</button>
+    </form>
+</body>
+</html>
