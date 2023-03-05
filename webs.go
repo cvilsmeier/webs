@@ -4,7 +4,7 @@ package webs
 //
 // This is webs, a collection of utilities for writing small web apps in Go.
 //
-// version 2023-03-04
+// version 2023-03-05
 //
 // ----------------------------------------------------------------------------
 
