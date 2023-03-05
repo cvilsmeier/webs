@@ -1,8 +1,8 @@
-package main
+package webs
 
 // ----------------------------------------------------------------------------
 //
-// This is webs, a collection of utilities for writing web apps in Go.
+// This is webs, a collection of utilities for writing small web apps in Go.
 //
 // version 2023-03-04
 //
@@ -25,28 +25,27 @@ import (
 
 // Request represents a HTTP request.
 type Request interface {
-
 	// IsPost returns true if this is a POST request.
 	IsPost() bool
-
 	// Query returns first named query parameter, or empty string if not found.
 	Query(name string) string
-
 	// PostForm returns first named form post parameter, or empty string if not found.
 	PostForm(name string) string
-
 	// FormFile returns the first file for the provided form key.
 	FormFile(name string) (FormFile, error)
-
 	// CookieValue returns the named cookie, or empty string if not found.
 	CookieValue(name, defValue string) string
 }
 
 // FormFile represents a HTTP file upload.
 type FormFile interface {
+	// Filename returns the original filename. Since this is set by the client, you cannot trust it.
 	Filename() string
+	// Size returns the size in bytes.
 	Size() int64
+	// Read reads uploaded data.
 	Read(p []byte) (int, error)
+	// Close closes it and must be called whether or not Read() was called before.
 	Close() error
 }
 
