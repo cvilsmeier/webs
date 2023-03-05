@@ -16,22 +16,10 @@ func Test(t *testing.T) {
 			},
 		}
 		res := s.servSay(req)
-		// response must be TemplateResponse
-		if res.Type != webs.TemplateResponse {
-			t.Fatalf("wrong Type %v", res.Type)
-		}
-		// template must be "say.html"
-		if res.TemplateName != "say.html" {
-			t.Fatalf("wrong TemplateName %v", res.TemplateName)
-		}
-		// template data must have exactly one entry
-		if len(res.TemplateData) != 1 {
-			t.Fatalf("wrong TemplateData size in %v size", res.TemplateData)
-		}
-		// template data must have "message" entry with value "hello"
-		if len(res.TemplateData) != 1 {
-			t.Fatalf("wrong TemplateData size in %v size", res.TemplateData)
-		}
+		assertEq(t, webs.TemplateResponse, res.Type)
+		assertEq(t, "say.html", res.TemplateName)
+		assertEq(t, 1, len(res.TemplateData))
+		assertEq(t, "hello", res.TemplateData["message"])
 	}
 	// test "GET /add"
 	{
@@ -60,13 +48,6 @@ func Test(t *testing.T) {
 	}
 }
 
-func assertEq(t *testing.T, exp, act any) {
-	t.Helper()
-	if act != exp {
-		t.Fatalf("expected %v but was %v", exp, act)
-	}
-}
-
 // fake webs.Request
 
 type fakeRequest struct {
@@ -92,4 +73,13 @@ func (f *fakeRequest) FormFile(name string) (webs.FormFile, error) {
 
 func (f *fakeRequest) CookieValue(name, defValue string) string {
 	return defValue
+}
+
+// assertion helper
+
+func assertEq(t *testing.T, exp, act any) {
+	t.Helper()
+	if act != exp {
+		t.Fatalf("expected %v but was %v", exp, act)
+	}
 }
