@@ -6,7 +6,7 @@ import (
 	"webs"
 )
 
-func TestServSay(t *testing.T) {
+func Test(t *testing.T) {
 	s := NewServer(webs.NewNullTemplateLoader())
 	// test "GET /say?message=hello"
 	{
